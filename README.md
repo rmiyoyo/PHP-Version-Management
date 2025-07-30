@@ -162,5 +162,3 @@ If you encounter any issues:
 4. Contact your hosting provider for server-specific PHP binary locations
 
 ---
-
-**Happy coding! 🎉**
