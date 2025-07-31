@@ -4,7 +4,7 @@ A bash script that automates PHP and Node.js version configuration for shared ho
 
 ---
 
-## ⚠️ Common Errors This Script Fixes
+## Common Errors This Script Fixes
 
 ### PHP/Composer Errors:
 ```
@@ -30,7 +30,7 @@ npm ERR! engine Unsupported engine for laravel-vite-plugin@1.2.0: wanted: {"node
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 1. Upload `server-env-setup.sh` to your server's home directory
 2. Make it executable: `chmod +x server-env-setup.sh`
@@ -38,7 +38,7 @@ npm ERR! engine Unsupported engine for laravel-vite-plugin@1.2.0: wanted: {"node
 
 ---
 
-## 💻 What It Does
+## What It Does
 
 ### PHP Configuration:
 - Creates symlinks to specify PHP versions for CLI usage
@@ -59,7 +59,7 @@ npm ERR! engine Unsupported engine for laravel-vite-plugin@1.2.0: wanted: {"node
 
 ---
 
-## ⚙️ Usage Options
+## Usage Options
 
 The script provides an interactive menu with these options:
 
@@ -71,7 +71,7 @@ The script provides an interactive menu with these options:
 
 ---
 
-## ✅ Post-Installation
+## Post-Installation
 
 After running the script:
 
@@ -83,7 +83,7 @@ After running the script:
 
 ---
 
-## 📋 System Requirements
+## System Requirements
 
 - Bash shell environment
 - Internet connection for downloading Node.js
@@ -92,7 +92,7 @@ After running the script:
 
 ---
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Script Won't Execute
 ```bash
@@ -123,7 +123,7 @@ source ~/.nvm/nvm.sh
 
 ---
 
-## 📝 Manual Configuration
+## Manual Configuration
 
 If you prefer to configure manually, here are the key steps the script performs:
 
@@ -142,7 +142,7 @@ echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
 ### For Node.js:
 ```bash
 # Install NVM
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 
 # Install and use Node.js
 nvm install 18
@@ -152,7 +152,7 @@ nvm alias default 18
 
 ---
 
-## 🤝 Support
+## Support
 
 If you encounter any issues:
 
