@@ -1,0 +1,25 @@
+name: ShellCheck
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run ShellCheck
+        run: shellcheck server-env-setup.sh
+
+      - name: Check syntax
+        run: bash -n server-env-setup.sh
+
+      - name: Smoke test
+        run: |
+          ./server-env-setup.sh --help
+          ./server-env-setup.sh --version
+          # No cPanel PHP on the runner, so --list should fail cleanly
+          if ./server-env-setup.sh --list; then exit 1; fi
