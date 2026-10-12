@@ -41,33 +41,50 @@ npm ERR! engine Unsupported engine for laravel-vite-plugin@1.2.0: wanted: {"node
 ## What It Does
 
 ### PHP Configuration:
-- Creates symlinks to specify PHP versions for CLI usage
-- Configures aliases as fallback method
-- Supports PHP versions 5.6 through 8.3
-- Automatically sets up Composer to use the correct PHP version
+- Detects the PHP versions actually installed on the server (cPanel `ea-php` and CloudLinux `alt-php`)
+- Symlinks the chosen version to `~/.local/bin/php` for CLI usage
+- Wraps cPanel's Composer so it always runs with the selected PHP version
+- Cleans up the `php`/`composer` aliases and `~/perl5/bin/php` symlink created by older versions of this script
+
+> **Note:** This sets the PHP version for the command line (SSH, cron, Composer). The version your website runs on is set in cPanel > MultiPHP Manager.
 
 ### Node.js Installation:
 - Installs Node Version Manager (NVM) if not present
-- Downloads and configures specified Node.js version (18, 20, or 22)
+- Installs any Node.js major version (e.g. 20, 22, 24) or the latest LTS
 - Sets the chosen version as default
-- Updates shell configuration automatically
+
+### Shell Configuration:
+- Keeps all changes in a single marked block in `~/.bashrc`, so re-running the script never adds duplicate lines
+- Backs up `~/.bashrc` before changing it
 
 ### Permission Fixes:
-- Resolves common `node_modules/.bin` permission issues
-- Configures npm cache permissions
-- Fixes executable permissions for build tools
+- Resolves `node_modules/.bin` permission issues (including nested packages)
+- Makes Laravel's `storage/` and `bootstrap/cache/` writable
+- Moves the npm cache to `~/.npm-cache` if the current one isn't writable
 
 ---
 
 ## Usage Options
 
-The script provides an interactive menu with these options:
+Run without arguments for an interactive menu:
 
-1. Configure PHP version only
-2. Install Node.js only  
-3. Fix permissions only
-4. Complete setup (all three)
-5. Exit
+1. Configure PHP version
+2. Install Node.js
+3. Fix permissions (current directory)
+4. Full setup (PHP + Node.js + permissions)
+5. List installed PHP versions
+6. Exit
+
+Or pass options to run without prompts:
+
+```bash
+./server-env-setup.sh --list                    # show installed PHP versions
+./server-env-setup.sh --php 8.2                 # switch CLI PHP to 8.2
+./server-env-setup.sh --node 22                 # install Node.js 22
+./server-env-setup.sh --php 8.3 --node lts --fix-perms
+./server-env-setup.sh --verify                  # show active versions
+./server-env-setup.sh --help
+```
 
 ---
 
@@ -85,7 +102,7 @@ After running the script:
 
 ## System Requirements
 
-- Bash shell environment
+- Bash 4 or newer (standard on cPanel/CloudLinux servers)
 - Internet connection for downloading Node.js
 - Write permissions to home directory
 - Access to PHP binaries on the server
@@ -108,8 +125,11 @@ which bash
 # Manually source the configuration
 source ~/.bashrc
 
-# Check if symlinks were created
-ls -la ~/bin/
+# Check where the php symlink points
+ls -la ~/.local/bin/php
+
+# See which PHP versions are installed
+./server-env-setup.sh --list
 ```
 
 ### Node.js Installation Issues
@@ -130,13 +150,13 @@ If you prefer to configure manually, here are the key steps the script performs:
 ### For PHP:
 ```bash
 # Create bin directory
-mkdir -p ~/bin
+mkdir -p ~/.local/bin
 
-# Create PHP symlink (example for PHP 8.1)
-ln -sf /usr/local/bin/php81 ~/bin/php
+# Create PHP symlink (example for cPanel PHP 8.1)
+ln -sfn /opt/cpanel/ea-php81/root/usr/bin/php ~/.local/bin/php
 
 # Add to PATH in ~/.bashrc
-echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 ```
 
 ### For Node.js:
@@ -145,9 +165,9 @@ echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 
 # Install and use Node.js
-nvm install 18
-nvm use 18
-nvm alias default 18
+nvm install 22
+nvm use 22
+nvm alias default 22
 ```
 
 ---
