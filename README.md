@@ -1,5 +1,7 @@
 # PHP Version Management
 
+[![ShellCheck](https://github.com/rmiyoyo/PHP-Version-Management/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/rmiyoyo/PHP-Version-Management/actions/workflows/shellcheck.yml)
+
 A bash script that automates PHP and Node.js version configuration for shared hosting environments.
 
 ---
